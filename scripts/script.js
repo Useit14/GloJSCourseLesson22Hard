@@ -14,28 +14,48 @@ const getIndex = (number) => {
 };
 
 const move = (direction, number) => {
-  let numberFrom;
-  let nubmerTo;
-  let temp;
-  if (direction.contains("top")) {
-    numberFrom = blocks[getIndex(number)].querySelector(".block-number");
-    nubmerTo = blocks[getIndex(number) - 5].querySelector(".block-number");
-    temp = nubmerTo.textContent;
-  } else if (direction.contains("right")) {
-    numberFrom = blocks[getIndex(number)].querySelector(".block-number");
-    nubmerTo = blocks[getIndex(number) + 1].querySelector(".block-number");
-    temp = nubmerTo.textContent;
-  } else if (direction.contains("bottom")) {
-    numberFrom = blocks[getIndex(number)].querySelector(".block-number");
-    nubmerTo = blocks[getIndex(number) + 5].querySelector(".block-number");
-    temp = nubmerTo.textContent;
-  } else if (direction.contains("left")) {
-    numberFrom = blocks[getIndex(number)].querySelector(".block-number");
-    nubmerTo = blocks[getIndex(number) - 1].querySelector(".block-number");
-    temp = nubmerTo.textContent;
+  try {
+    let numberFrom;
+    let nubmerTo;
+    let temp;
+    if (direction.contains("top")) {
+      numberFrom = blocks[getIndex(number)].querySelector(".block-number");
+      nubmerTo = blocks[getIndex(number) - 5]?.querySelector(".block-number");
+      if (nubmerTo) {
+        temp = nubmerTo.textContent;
+      } else {
+        throw new RangeError("Вы вышли за границы поля!");
+      }
+    } else if (direction.contains("right")) {
+      numberFrom = blocks[getIndex(number)].querySelector(".block-number");
+      nubmerTo = blocks[getIndex(number) + 1]?.querySelector(".block-number");
+      if (nubmerTo) {
+        temp = nubmerTo.textContent;
+      } else {
+        throw new RangeError("Вы вышли за границы поля!");
+      }
+    } else if (direction.contains("bottom")) {
+      numberFrom = blocks[getIndex(number)].querySelector(".block-number");
+      nubmerTo = blocks[getIndex(number) + 5]?.querySelector(".block-number");
+      if (nubmerTo) {
+        temp = nubmerTo.textContent;
+      } else {
+        throw new RangeError("Вы вышли за границы поля!");
+      }
+    } else if (direction.contains("left")) {
+      numberFrom = blocks[getIndex(number)].querySelector(".block-number");
+      nubmerTo = blocks[getIndex(number) - 1]?.querySelector(".block-number");
+      if (nubmerTo) {
+        temp = nubmerTo.textContent;
+      } else {
+        throw new RangeError("Вы вышли за границы поля!");
+      }
+    }
+    nubmerTo.textContent = numberFrom.textContent;
+    numberFrom.textContent = temp;
+  } catch (e) {
+    if (e.name === "RangeError") alert(e.message);
   }
-  nubmerTo.textContent = numberFrom.textContent;
-  numberFrom.textContent = temp;
 };
 
 const reset = () => {
@@ -52,5 +72,4 @@ squareBody.addEventListener("click", (e) => {
     );
   }
 });
-
 resetBtn.addEventListener("click", reset);
